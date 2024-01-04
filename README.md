@@ -1,3 +1,9 @@
+This is just the uploaded of my excercises from Rustlings https://github.com/rust-lang/rustlings
+
+As far as I'm aware, forking doesn't give me that juicy heatmap stats - I'm still unfamiliar to Github as of 04/01/2024, so not sure if this is the best practice.
+
+Likely no-one will see this anyway.. Right?
+
 # Exercise to Book Chapter mapping
 
 | Exercise               | Book Chapter        |
