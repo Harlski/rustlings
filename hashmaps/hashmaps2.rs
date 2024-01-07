@@ -14,11 +14,10 @@
 // Execute `rustlings hint hashmaps2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
-#[derive(Hash, PartialEq, Eq)]
+#[derive(Hash, PartialEq, Eq, Debug)]
 enum Fruit {
     Apple,
     Banana,
@@ -37,6 +36,7 @@ fn fruit_basket(basket: &mut HashMap<Fruit, u32>) {
     ];
 
     for fruit in fruit_kinds {
+        if basket.contains_key(&fruit){ continue } else { basket.insert(fruit, 1); }
         // TODO: Insert new fruits if they are not already present in the
         // basket. Note that you are not allowed to put any type of fruit that's
         // already present!
@@ -64,6 +64,7 @@ mod tests {
         assert_eq!(*basket.get(&Fruit::Apple).unwrap(), 4);
         assert_eq!(*basket.get(&Fruit::Mango).unwrap(), 2);
         assert_eq!(*basket.get(&Fruit::Lychee).unwrap(), 5);
+
     }
 
     #[test]
@@ -91,3 +92,10 @@ mod tests {
         }
     }
 }
+
+
+// Note: 
+// I'm unsure if it's just the way Rustlings is compiled, but I tried very hard to iterate over the contents
+// of the basket, so I can visually see that it had been added.
+// Tests have completed, so I have to believe that what I've done is correct - though it would've been nice to 
+// have been able to visually confirm.

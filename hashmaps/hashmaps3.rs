@@ -1,3 +1,10 @@
+// Harley' Notes:
+// Spent a long time trying to work out why this wouldn't compile, various different solutions
+// Not sure if I just wasn't understanding, or if there's an easier answer
+// But it looks as though, because I was trying to refer team_1 and team_2 to scores.entry at the same time
+// It was conflicting and I for the life of my couldn't figure it out.
+// Now I understand that they can't be within the same scope, much clearer now.
+
 // hashmaps3.rs
 //
 // A list of scores (one per line) of a soccer match is given. Each line is of
@@ -14,11 +21,11 @@
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
 // A structure to store the goal details of a team.
+#[derive(Debug)]
 struct Team {
     goals_scored: u8,
     goals_conceded: u8,
@@ -30,16 +37,55 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
 
     for r in results.lines() {
         let v: Vec<&str> = r.split(',').collect();
+        println!("V: {:?}", v);
         let team_1_name = v[0].to_string();
         let team_1_score: u8 = v[2].parse().unwrap();
         let team_2_name = v[1].to_string();
         let team_2_score: u8 = v[3].parse().unwrap();
+
+        // scores.entry(team_1_name).or_insert(Team { goals_scored: 0, goals_conceded: 0});
+        // scores.entry(team_2_name).or_insert(Team { goals_scored: 0, goals_conceded: 0});
+        {
+            let team_1 = &mut scores.entry(team_1_name).or_insert(Team { goals_scored: 0, goals_conceded: 0});
+            team_1.goals_scored += team_1_score;
+            team_1.goals_conceded += team_2_score;
+        }
+        
+        {
+            let team_2 = &mut scores.entry(team_2_name).or_insert(Team { goals_scored: 0, goals_conceded: 0});
+            team_2.goals_scored += team_2_score;
+            team_2.goals_conceded += team_1_score;
+        }
+        // points1.goals_scored += team_1_score;
+        // points1.goals_conceded += team_2_score;
+        // team_1.goals_scored += team_1_score;
+        // team_1.goals_conceded += team_2_score;
+        // team_2.goals_scored += team_2_score;
+        // team_2.goals_conceded += team_1_score;
+        
+    //     if !scores.contains_key(&team_1_name){
+    //         scores.insert(team_1_name.clone(), Team { goals_scored: team_1_score, goals_conceded: team_2_score }) ;
+    //     } 
+
+    //    if !scores.contains_key(&team_2_name){
+    //         scores.insert(team_2_name.clone(), Team { goals_scored: team_2_score, goals_conceded: team_1_score }) ;
+    //     } 
+
+    //     if scores.contains_key(&team_1_name){
+    //         scores.insert(team_1_name.clone(), { goals_scored += team_1_score, goals_conceded += team_2_score }) ;
+    //     } 
+
+    //    if !scores.contains_key(&team_2_name){
+    //         scores.insert(team_2_name.clone(), { goals_scored += team_2_score, goals_conceded += team_1_score }) ;
+    //     } 
+
         // TODO: Populate the scores table with details extracted from the
         // current line. Keep in mind that goals scored by team_1
         // will be the number of goals conceded from team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
     }
+
     scores
 }
 
